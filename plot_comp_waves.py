@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.pyplot import subplots
-from scipy.stats import gamma,binom
+from scipy.stats import gamma, binom
 import matplotlib.dates as mdates
 from datetime import date, timedelta
 import datetime
@@ -240,7 +240,7 @@ def plot_Rt(city, per, cases, ax):
 
     n_pr= ch_time_varying_pr.shape[0]
     init_date= Out_df['SampleDate'][0]
-    delay=10 #11
+    delay=21 #11
     days = pd.date_range(start=init_date+pd.Timedelta(days=delay), end=init_date+pd.Timedelta(days=delay+n_pr-1))
     #fig, ax = subplots(num=1, figsize=(12, 5))
 
@@ -253,7 +253,7 @@ def plot_Rt(city, per, cases, ax):
     #ax.plot(date_cases, ch_time_varying_r['Q0.5'], color='k')
     #ax.fill_between(date_cases, ch_time_varying_r['Q0.025'], ch_time_varying_r['Q0.975'], color='k', alpha=0.1)
     if cases:
-        dl=9
+        dl=10
         city_data_all = city_data_all.reset_index()
         # fig, ax = subplots(num=1, figsize=(12, 5))
         davis_all = pd.Series(data=city_data_all['positives_crude'].values[:-45], index=city_data_all['SampleDate'][:-45])
@@ -270,7 +270,7 @@ def plot_Rt(city, per, cases, ax):
 
         ax.plot(date_all, ch_time_varying_r_all['Q0.5'], color='k')
         ax.fill_between(date_all, ch_time_varying_r_all['Q0.025'], ch_time_varying_r_all['Q0.975'], facecolor='k', alpha=0.2, hatch= r'$\$', edgecolor='k', label=r'$R_e(t)$ with observed cases')
-        ax.set_xlim([mcmc.init0 + pd.Timedelta(days=21), mcmc.init0 + pd.Timedelta(days=21 + n_all - 1 - 8)])
+        ax.set_xlim([mcmc.init0 + pd.Timedelta(days=21+dl), mcmc.init0 + pd.Timedelta(days=21 +dl+ n_all - 1 - 8)])
     else:
         ax.plot(date_pred, ch_time_varying_pr['Q0.5'], color='b')
         ax.fill_between(date_pred, ch_time_varying_pr['Q0.025'], ch_time_varying_pr['Q0.975'], facecolor='b', alpha=0.2, hatch= '/', edgecolor='b')
@@ -279,7 +279,8 @@ def plot_Rt(city, per, cases, ax):
         #ax.fill_between(date_pred, ch_time_varying_pr2['Q0.025'], ch_time_varying_pr2['Q0.975'], facecolor='g', alpha=0.1, hatch= r'$\$', edgecolor='g')
 
     ax.set_ylabel(r'$R_e(t)$ with $95\%$ CI')
-    ax.set_xlabel('     2021                                                                       2022', loc='left')
+    #ax.set_xlabel('2021                                                                     2022', loc='left')
+    ax.set_xlabel('2021                                                                           2022', loc='left')
     ax.grid(color='gray', linestyle='--', alpha=0.2)
     plt.setp(ax.get_xticklabels(), rotation=0, ha="left", rotation_mode="anchor")
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
@@ -327,14 +328,14 @@ def plot_all_Rt(city):
 #city = 'Modesto'
 #city='Davis'
 #city='Davis (sludge)'
-city='Davis (sludge)'
+city='UCDavis (sludge)'
 #plot_beta(city,ax=ax)
 #plot_all_wave(city, pers=28)
-#plot_post_wave_beta(city, pers=28)
+plot_post_wave_beta(city, pers=28)
 #plot_params(city, par=-1)
 #plot_comp_params(city)
 
-plot_all_Rt(city)
+#plot_all_Rt(city)
 #plt.rcParams['font.size'] = 10
 
 #fig, ax = subplots(num=1, figsize=(12, 5))
